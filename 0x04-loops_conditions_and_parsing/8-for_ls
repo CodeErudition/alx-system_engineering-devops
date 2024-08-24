@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# This is a Bash script that displays:
+# The content of the current directory
+# In a list format
+# Where only the part of the name after the first dash
+# is displayed (refer to the example)
+
+for file in *-*
+do
+    if [ -f "$file" ]
+    then
+        new_name="${file#*-}"
+        echo "$new_name"
+    fi
+done
