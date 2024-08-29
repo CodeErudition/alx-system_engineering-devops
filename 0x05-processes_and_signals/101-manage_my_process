@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# This is a script that manages the manage_my_process script with start, stop, and restart options
+
+PROCESS_NAME="manage_my_process"
+PID_FILE="/var/run/my_process.pid"
+SCRIPT_PATH="./manage_my_process"
+
+start_process() {
+    $SCRIPT_PATH &
+    echo $! > "$PID_FILE"
+    if [ "$1" != "quiet" ]
+    then
+        echo "$PROCESS_NAME started"
+    fi
+}
+
+stop_process() {
+    kill "$(cat $PID_FILE)"
+    rm -f "$PID_FILE"
+    if [ "$1" != "quiet" ]
+    then
+        echo "$PROCESS_NAME stop"
+    fi
+}
+
+restart_process() {
+    stop_process quiet
+    start_process quiet
+    echo "$PROCESS_NAME restarted"
+}
+
+usage() {
+    echo "Usage: $PROCESS_NAME {start|stop|restart}"
+    exit 1
+}
+
+case "$1" in
+    start)
+        start_process
+        ;;
+    stop)
+        stop_process
+        ;;
+    restart)
+        restart_process
+        ;;
+    *)
+        usage
+        ;;
+esac
