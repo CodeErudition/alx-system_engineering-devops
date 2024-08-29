@@ -19,7 +19,7 @@ stop_process() {
     rm -f "$PID_FILE"
     if [ "$1" != "quiet" ]
     then
-        echo "$PROCESS_NAME stop"
+        echo "$PROCESS_NAME stopped"
     fi
 }
 
